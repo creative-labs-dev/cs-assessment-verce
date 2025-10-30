@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Official Creative Labs Candidate Assessment Portal">
+    <title>Creative Labs - Candidate Assessment Portal</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏢</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 550px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #f0f0f0;
+        }
+
+        .logo { font-size: 48px; margin-bottom: 10px; }
+
+        .company-name {
+            font-size: 24px;
+            color: #1e3c72;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .subtitle { color: #666; font-size: 14px; }
+
+        .trust-badge {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 13px;
+            margin: 20px auto;
+            display: inline-block;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.25);
+        }
+
+        .notice {
+            background: #e8f4ff;
+            border-left: 4px solid #1e3c72;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+
+        .notice h3 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .notice ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .notice li {
+            padding: 5px 0;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .notice li:before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        h1 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 26px;
+            text-align: center;
+        }
+
+        .intro-text {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .form-group { margin-bottom: 20px; }
+
+        label {
+            display: block;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #1e3c72;
+            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+        }
+
+        input.error {
+            border-color: #dc3545;
+            background: #fff5f5;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-message.show { display: block; }
+
+        .consent-box {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .consent-box input[type="checkbox"] {
+            width: auto;
+            margin-right: 8px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 60, 114, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+            color: #999;
+            font-size: 12px;
+        }
+
+        .success-page { display: none; text-align: center; }
+
+        .success-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: successPop 0.5s ease-out;
+        }
+
+        @keyframes successPop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .confirmation-id {
+            background: linear-gradient(135deg, #f8f9ff, #e8eeff);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 18px;
+            font-weight: bold;
+            color: #1e3c72;
+            margin: 20px 0;
+            border: 2px solid #1e3c72;
+        }
+
+        .powered-by {
+            text-align: center;
+            margin-top: 20px;
+            color: #999;
+            font-size: 11px;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 30px 25px; }
+            h1 { font-size: 22px; }
+            .company-name { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🏢</div>
+            <div class="company-name">Creative Labs</div>
+            <div class="subtitle">Official Recruitment Portal</div>
+        </div>
+
+        <div id="registrationForm">
+            <div style="text-align: center;">
+                <div class="trust-badge">
+                    🔒 Verified Official Portal
+                </div>
+            </div>
+
+            <div class="notice">
+                <h3>📋 About This Assessment</h3>
+                <ul>
+                    <li>Official Creative Labs candidate portal</li>
+                    <li>Information used only for recruitment</li>
+                    <li>Secure data handling (GDPR compliant)</li>
+                    <li>Email confirmation after registration</li>
+                </ul>
+            </div>
+
+            <h1>Candidate Registration</h1>
+            <p class="intro-text">Register to access the customer service assessment</p>
+
+            <form id="candidateForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" placeholder="Enter your full name" required>
+                    <div class="error-message" id="nameError">Please enter your full name (min 3 characters)</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" placeholder="your.email@example.com" required>
+                    <div class="error-message" id="emailError">Please enter a valid email address</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input type="tel" id="phone" placeholder="+1 (555) 000-0000" required>
+                    <div class="error-message" id="phoneError">Please enter a valid phone number</div>
+                </div>
+
+                <div class="consent-box">
+                    <label style="display: flex; align-items: flex-start; font-weight: normal;">
+                        <input type="checkbox" id="consent" required style="margin-top: 3px;">
+                        <span>I consent to Creative Labs collecting my information for recruitment purposes. I understand this is a legitimate hiring process.</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn" id="submitBtn">
+                    Register for Assessment
+                </button>
+            </form>
+
+            <div class="footer">
+                <p>🔐 Your data is encrypted and secure</p>
+                <p>© 2024 Creative Labs. All rights reserved.</p>
+            </div>
+        </div>
+
+        <div id="successPage" class="success-page">
+            <div class="success-icon">✅</div>
+            <h1>Registration Successful!</h1>
+            <p class="intro-text">Your information has been recorded securely.</p>
+            
+            <div class="notice">
+                <h3>📧 What's Next?</h3>
+                <ul>
+                    <li>Check your email for instructions</li>
+                    <li>Assessment link sent within 24 hours</li>
+                    <li>Total time: 25 minutes</li>
+                    <li>Passing score: 70%</li>
+                </ul>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <strong>Confirmation ID:</strong>
+                <div class="confirmation-id" id="confirmationId">LOADING...</div>
+                <small style="color: #666;">Save this reference number</small>
+            </div>
+
+            <div class="powered-by">
+                Powered by Vercel
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getDatabase, ref, push } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCwulSy8UIY_DDF4A3fhiPNm4gJmbfg8Iw",
+            authDomain: "customer-service-assessm-1c9e5.firebaseapp.com",
+            databaseURL: "https://customer-service-assessm-1c9e5-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "customer-service-assessm-1c9e5",
+            storageBucket: "customer-service-assessm-1c9e5.firebasestorage.app",
+            messagingSenderId: "187392191155",
+            appId: "1:187392191155:web:4f88f966057e1b7815dec6"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        document.getElementById('candidateForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+            document.querySelectorAll('input').forEach(el => el.classList.remove('error'));
+            
+            const name = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const consent = document.getElementById('consent').checked;
+            
+            let isValid = true;
+            
+            if (name.length < 3) {
+                document.getElementById('fullName').classList.add('error');
+                document.getElementById('nameError').classList.add('show');
+                isValid = false;
+            }
+            
+            if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                document.getElementById('email').classList.add('error');
+                document.getElementById('emailError').classList.add('show');
+                isValid = false;
+            }
+            
+            if (phone.replace(/\D/g, '').length < 10) {
+                document.getElementById('phone').classList.add('error');
+                document.getElementById('phoneError').classList.add('show');
+                isValid = false;
+            }
+            
+            if (!consent) {
+                alert('Please accept the consent agreement.');
+                return;
+            }
+            
+            if (!isValid) return;
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+            
+            const confirmationId = 'CL-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+            
+            try {
+                await push(ref(database, 'candidateRegistrations'), {
+                    confirmationId,
+                    name,
+                    email,
+                    phone,
+                    consent: true,
+                    registeredAt: new Date().toISOString(),
+                    source: 'vercel-portal',
+                    userAgent: navigator.userAgent
+                });
+                
+                document.getElementById('registrationForm').style.display = 'none';
+                document.getElementById('successPage').style.display = 'block';
+                document.getElementById('confirmationId').textContent = confirmationId;
+                
+            } catch (error) {
+                alert('Error: ' + error.message);
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Register for Assessment';
+            }
+        });
+    </script>
+</body>
+</html>
