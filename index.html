@@ -3,322 +3,783 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Official Creative Labs Candidate Assessment Portal">
-    <title>Creative Labs - Candidate Assessment Portal</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏢</text></svg>">
+    <meta name="description" content="Official Creative Labs Customer Service Assessment">
+    <title>Creative Labs - Customer Service Assessment</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
+        :root {
+            --primary-color: #1e3c72;
+            --primary-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --text-primary: #222;
+            --text-secondary: #666;
+            --border-color: #e0e0e0;
+            --bg-light: #f8f9ff;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 15px rgba(0,0,0,0.1);
+            --shadow-lg: 0 15px 50px rgba(0,0,0,0.3);
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: var(--primary-gradient);
+            min-height: 100vh;
+        }
+
+        .page { display: none; animation: fadeIn 0.4s; }
+        .page.active { display: block; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
         }
 
-        .container {
-            background: white;
-            padding: 50px 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 550px;
-            width: 100%;
-        }
-
-        .header {
+        .security-warning {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--danger-color);
+            color: white;
+            padding: 12px;
             text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 3px solid #f0f0f0;
+            font-weight: 600;
+            z-index: 10000;
+            display: none;
+            font-size: 14px;
         }
 
-        .logo { font-size: 48px; margin-bottom: 10px; }
+        .security-warning.show { display: block; }
+
+        .login-box {
+            background: white;
+            padding: 50px 45px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .company-header {
+            margin-bottom: 25px;
+        }
+
+        .company-logo {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
 
         .company-name {
             font-size: 24px;
-            color: #1e3c72;
+            color: var(--primary-color);
             font-weight: 700;
             margin-bottom: 5px;
         }
 
-        .subtitle { color: #666; font-size: 14px; }
+        .login-box h1 {
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            font-size: 28px;
+            font-weight: 700;
+        }
 
-        .trust-badge {
-            background: linear-gradient(135deg, #28a745, #20c997);
+        .login-box p {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 15px;
+        }
+
+        .security-badge {
+            background: linear-gradient(135deg, var(--success-color), #20c997);
             color: white;
             padding: 10px 20px;
             border-radius: 25px;
             font-size: 13px;
-            margin: 20px auto;
-            display: inline-block;
-            font-weight: 600;
-            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.25);
-        }
-
-        .notice {
-            background: #e8f4ff;
-            border-left: 4px solid #1e3c72;
-            padding: 20px;
-            margin-bottom: 30px;
-            border-radius: 8px;
-        }
-
-        .notice h3 {
-            color: #1e3c72;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-
-        .notice ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .notice li {
-            padding: 5px 0;
-            color: #333;
-            font-size: 14px;
-        }
-
-        .notice li:before {
-            content: "✓ ";
-            color: #28a745;
-            font-weight: bold;
-            margin-right: 8px;
-        }
-
-        h1 {
-            color: #1e3c72;
-            margin-bottom: 15px;
-            font-size: 26px;
-            text-align: center;
-        }
-
-        .intro-text {
-            text-align: center;
-            color: #666;
             margin-bottom: 25px;
-            font-size: 15px;
-            line-height: 1.6;
-        }
-
-        .form-group { margin-bottom: 20px; }
-
-        label {
-            display: block;
-            color: #333;
-            margin-bottom: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             font-weight: 600;
-            font-size: 14px;
         }
 
-        input {
+        .login-box input {
             width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 15px;
-            font-family: inherit;
+            padding: 16px 20px;
+            margin-bottom: 18px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 16px;
             transition: all 0.3s;
+            font-family: inherit;
         }
 
-        input:focus {
+        .login-box input:focus {
             outline: none;
-            border-color: #1e3c72;
-            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(42, 82, 152, 0.1);
         }
 
-        input.error {
-            border-color: #dc3545;
+        .login-box input.error {
+            border-color: var(--danger-color);
             background: #fff5f5;
         }
 
         .error-message {
-            color: #dc3545;
+            color: var(--danger-color);
             font-size: 13px;
-            margin-top: 5px;
+            margin-top: -14px;
+            margin-bottom: 12px;
+            text-align: left;
             display: none;
+            font-weight: 500;
         }
 
         .error-message.show { display: block; }
 
-        .consent-box {
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 13px;
-            color: #666;
+        .btn {
+            width: 100%;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
         }
 
-        .consent-box input[type="checkbox"] {
-            width: auto;
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 14px rgba(30, 60, 114, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 60, 114, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: var(--text-primary);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--success-color), #20c997);
+            color: white;
+        }
+
+        .instructions-box {
+            background: white;
+            padding: 45px 40px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 750px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .instructions-box h1 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .instructions-content ul {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .instructions-content li {
+            padding: 14px 0 14px 32px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid #f5f5f5;
+            position: relative;
+            font-size: 15px;
+        }
+
+        .instructions-content li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .test-info {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8eeff 100%);
+            padding: 25px;
+            border-radius: 16px;
+            margin-top: 25px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .test-info p {
+            margin: 12px 0;
+            color: var(--text-primary);
+            font-size: 15px;
+        }
+
+        .audio-box {
+            background: white;
+            padding: 45px 40px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .audio-box h1 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .audio-prompt {
+            background: var(--bg-light);
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--primary-color);
+            text-align: left;
+        }
+
+        .audio-prompt h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .audio-prompt ul {
+            list-style: none;
+        }
+
+        .audio-prompt li {
+            padding: 8px 0;
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        .audio-prompt li:before {
+            content: "• ";
+            color: var(--primary-color);
+            font-weight: bold;
             margin-right: 8px;
         }
 
-        .btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: white;
+        .record-btn {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
             border: none;
-            border-radius: 10px;
-            font-size: 16px;
+            background: linear-gradient(135deg, var(--danger-color), #c82333);
+            color: white;
+            font-size: 17px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
         }
 
-        .btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(30, 60, 114, 0.3);
+        .record-btn:hover {
+            transform: scale(1.05);
         }
 
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
+        .record-btn.recording {
+            animation: recordPulse 1.5s infinite;
         }
 
-        .footer {
+        @keyframes recordPulse {
+            0%, 100% { box-shadow: 0 6px 20px rgba(220, 53, 69, 0.3); }
+            50% { box-shadow: 0 6px 30px rgba(220, 53, 69, 0.7), 0 0 0 15px rgba(220, 53, 69, 0.1); }
+        }
+
+        .recording-status {
+            margin-top: 20px;
+            font-size: 17px;
+            color: var(--danger-color);
+            font-weight: 600;
+            min-height: 28px;
+        }
+
+        .recording-timer {
+            font-size: 28px;
+            color: var(--primary-color);
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .audio-player {
+            margin: 25px 0;
+            display: none;
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .audio-player.show { display: block; }
+
+        .audio-player audio {
+            width: 100%;
+            margin: 15px 0;
+        }
+
+        .test-header {
+            background: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-md);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .candidate-info {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 16px;
+        }
+
+        .timer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+            background: #f0f4ff;
+            padding: 10px 18px;
+            border-radius: 12px;
+        }
+
+        .timer.warning {
+            color: var(--danger-color);
+            background: #ffe0e0;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .test-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 25px auto;
+            gap: 25px;
+            padding: 0 20px;
+        }
+
+        .question-sidebar {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            width: 220px;
+            height: fit-content;
+            box-shadow: var(--shadow-md);
+        }
+
+        #questionNav {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+
+        .question-nav-btn {
+            width: 36px;
+            height: 36px;
+            border: 2px solid var(--border-color);
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .question-nav-btn:hover {
+            border-color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        .question-nav-btn.answered {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .question-nav-btn.current {
+            border-color: var(--primary-color);
+            border-width: 3px;
+        }
+
+        .question-area {
+            flex: 1;
+            background: white;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .question-header {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #f5f5f5;
+            font-size: 15px;
+        }
+
+        #questionText {
+            color: var(--text-primary);
+            margin-bottom: 30px;
+            font-size: 20px;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        .option {
+            background: var(--bg-light);
+            padding: 16px 20px;
+            margin-bottom: 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            border: 2px solid #e8eeff;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+        }
+
+        .option:hover {
+            border-color: var(--primary-color);
+            transform: translateX(6px);
+        }
+
+        .option.selected {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 14px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .written-answer {
+            width: 100%;
+            min-height: 200px;
+            padding: 18px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .written-answer:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(42, 82, 152, 0.1);
+        }
+
+        .char-counter {
+            text-align: right;
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .paste-warning {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning-color);
+            padding: 12px 16px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            color: #856404;
+            font-size: 14px;
+        }
+
+        .question-controls {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 25px;
+            border-top: 3px solid #f5f5f5;
+            gap: 12px;
+        }
+
+        .thankyou-box {
+            background: white;
+            padding: 60px 50px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 650px;
             text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 2px solid #f0f0f0;
-            color: #999;
-            font-size: 12px;
         }
 
-        .success-page { display: none; text-align: center; }
+        .success-icon-wrapper {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, var(--success-color), #20c997);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: successPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
 
         .success-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-            animation: successPop 0.5s ease-out;
+            font-size: 45px;
+            color: white;
         }
 
         @keyframes successPop {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
+            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
         }
 
-        .confirmation-id {
-            background: linear-gradient(135deg, #f8f9ff, #e8eeff);
-            padding: 15px;
-            border-radius: 8px;
-            font-family: monospace;
-            font-size: 18px;
-            font-weight: bold;
-            color: #1e3c72;
-            margin: 20px 0;
-            border: 2px solid #1e3c72;
+        .thankyou-box h1 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 32px;
+            font-weight: 700;
         }
 
-        .powered-by {
-            text-align: center;
-            margin-top: 20px;
-            color: #999;
-            font-size: 11px;
+        .submission-id-card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8eeff 100%);
+            padding: 25px;
+            border-radius: 16px;
+            margin: 30px 0;
+            border: 2px solid var(--primary-color);
         }
 
-        @media (max-width: 600px) {
-            .container { padding: 30px 25px; }
-            h1 { font-size: 22px; }
-            .company-name { font-size: 20px; }
+        .submission-id-card .id-value {
+            color: var(--primary-color);
+            font-size: 20px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+        }
+
+        .timeline {
+            margin: 30px 0;
+            padding: 25px;
+            background: var(--bg-light);
+            border-radius: 16px;
+            text-align: left;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid #e8eeff;
+        }
+
+        .timeline-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--success-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .test-container { flex-direction: column; padding: 0 15px; }
+            .question-sidebar { width: 100%; }
+            #questionNav { grid-template-columns: repeat(10, 1fr); }
+            .question-controls { flex-direction: column; }
+        }
+
+        .hp-field {
+            position: absolute;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">🏢</div>
-            <div class="company-name">Creative Labs</div>
-            <div class="subtitle">Official Recruitment Portal</div>
-        </div>
+    <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off">
+    <div id="securityWarning" class="security-warning"></div>
 
-        <div id="registrationForm">
-            <div style="text-align: center;">
-                <div class="trust-badge">
-                    🔒 Verified Official Portal
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="page active">
+        <div class="container">
+            <div class="login-box">
+                <div class="company-header">
+                    <div class="company-logo">🏢</div>
+                    <div class="company-name">Creative Labs</div>
                 </div>
-            </div>
-
-            <div class="notice">
-                <h3>📋 About This Assessment</h3>
-                <ul>
-                    <li>Official Creative Labs candidate portal</li>
-                    <li>Information used only for recruitment</li>
-                    <li>Secure data handling (GDPR compliant)</li>
-                    <li>Email confirmation after registration</li>
-                </ul>
-            </div>
-
-            <h1>Candidate Registration</h1>
-            <p class="intro-text">Register to access the customer service assessment</p>
-
-            <form id="candidateForm">
-                <div class="form-group">
-                    <label for="fullName">Full Name *</label>
-                    <input type="text" id="fullName" placeholder="Enter your full name" required>
-                    <div class="error-message" id="nameError">Please enter your full name (min 3 characters)</div>
+                <div class="security-badge">
+                    <span>🔒</span>
+                    <span>Secure Assessment</span>
                 </div>
-
-                <div class="form-group">
-                    <label for="email">Email Address *</label>
-                    <input type="email" id="email" placeholder="your.email@example.com" required>
-                    <div class="error-message" id="emailError">Please enter a valid email address</div>
-                </div>
-
-                <div class="form-group">
-                    <label for="phone">Phone Number *</label>
-                    <input type="tel" id="phone" placeholder="+1 (555) 000-0000" required>
+                <h1>Customer Service Assessment</h1>
+                <p>Enter your details to begin</p>
+                <form id="loginForm" autocomplete="off">
+                    <input type="text" id="candidateName" placeholder="Full Name" required>
+                    <div class="error-message" id="nameError">Please enter your full name</div>
+                    <input type="email" id="candidateEmail" placeholder="Email Address" required>
+                    <div class="error-message" id="emailError">Please enter a valid email</div>
+                    <input type="tel" id="candidatePhone" placeholder="Phone Number" required>
                     <div class="error-message" id="phoneError">Please enter a valid phone number</div>
-                </div>
-
-                <div class="consent-box">
-                    <label style="display: flex; align-items: flex-start; font-weight: normal;">
-                        <input type="checkbox" id="consent" required style="margin-top: 3px;">
-                        <span>I consent to Creative Labs collecting my information for recruitment purposes. I understand this is a legitimate hiring process.</span>
-                    </label>
-                </div>
-
-                <button type="submit" class="btn" id="submitBtn">
-                    Register for Assessment
-                </button>
-            </form>
-
-            <div class="footer">
-                <p>🔐 Your data is encrypted and secure</p>
-                <p>© 2024 Creative Labs. All rights reserved.</p>
+                    <button type="submit" class="btn btn-primary">Proceed to Assessment</button>
+                </form>
             </div>
         </div>
+    </div>
 
-        <div id="successPage" class="success-page">
-            <div class="success-icon">✅</div>
-            <h1>Registration Successful!</h1>
-            <p class="intro-text">Your information has been recorded securely.</p>
-            
-            <div class="notice">
-                <h3>📧 What's Next?</h3>
-                <ul>
-                    <li>Check your email for instructions</li>
-                    <li>Assessment link sent within 24 hours</li>
-                    <li>Total time: 25 minutes</li>
-                    <li>Passing score: 70%</li>
-                </ul>
+    <!-- INSTRUCTIONS PAGE -->
+    <div id="instructionsPage" class="page">
+        <div class="container">
+            <div class="instructions-box">
+                <h1>Assessment Instructions</h1>
+                <div class="instructions-content">
+                    <ul>
+                        <li>THREE sections: Audio Introduction, Multiple Choice (18), Written (2)</li>
+                        <li>Record a 30-60 second audio introduction</li>
+                        <li>18 multiple choice questions</li>
+                        <li>2 written questions (minimum 100 words each)</li>
+                        <li>Timer starts when you begin the test</li>
+                        <li>Assessment auto-submits when time expires</li>
+                        <li>You can only submit ONCE per email</li>
+                    </ul>
+                    <div class="test-info">
+                        <p><strong>Total Questions:</strong> 20</p>
+                        <p><strong>Time Allowed:</strong> 25 minutes</p>
+                        <p><strong>Passing Score:</strong> 70%</p>
+                    </div>
+                </div>
+                <button id="startTestBtn" class="btn btn-primary">I Understand - Start Assessment</button>
+                <button id="backToLogin" class="btn btn-secondary" style="margin-top: 15px;">Back</button>
             </div>
+        </div>
+    </div>
 
-            <div style="margin: 20px 0;">
-                <strong>Confirmation ID:</strong>
-                <div class="confirmation-id" id="confirmationId">LOADING...</div>
-                <small style="color: #666;">Save this reference number</small>
+    <!-- AUDIO PAGE -->
+    <div id="audioPage" class="page">
+        <div class="container">
+            <div class="audio-box">
+                <h1>🎤 Audio Introduction</h1>
+                <p>Record a brief introduction (30-60 seconds)</p>
+                <div class="audio-prompt">
+                    <h3>What to include:</h3>
+                    <ul>
+                        <li>Your name and location</li>
+                        <li>Customer service experience</li>
+                        <li>Why you're interested in this role</li>
+                        <li>One key strength you have</li>
+                    </ul>
+                </div>
+                <div class="recording-controls">
+                    <button id="recordBtn" class="record-btn">🎙️ Start</button>
+                    <div class="recording-status" id="recordingStatus"></div>
+                    <div class="recording-timer" id="recordingTimer"></div>
+                </div>
+                <div class="audio-player" id="audioPlayer">
+                    <p><strong>Your Recording:</strong></p>
+                    <audio id="audioPlayback" controls></audio>
+                </div>
+                <div class="audio-actions">
+                    <button id="continueToTest" class="btn btn-primary" style="display:none;">Continue to Test</button>
+                    <button id="reRecordBtn" class="btn btn-secondary" style="display:none; margin-top: 15px;">Re-record</button>
+                </div>
             </div>
+        </div>
+    </div>
 
-            <div class="powered-by">
-                Powered by Vercel
+    <!-- TEST PAGE -->
+    <div id="testPage" class="page">
+        <div class="test-header">
+            <div class="candidate-info"><span id="candidateNameDisplay"></span></div>
+            <div class="timer"><span>⏱️</span><span id="timer">25:00</span></div>
+        </div>
+        <div class="test-container">
+            <div class="question-sidebar">
+                <h3>Questions</h3>
+                <div id="questionNav"></div>
+            </div>
+            <div class="question-area">
+                <div class="question-header"><span id="questionNumber">Question 1 of 20</span></div>
+                <div id="questionContainer">
+                    <h2 id="questionText"></h2>
+                    <div id="optionsContainer"></div>
+                </div>
+                <div class="question-controls">
+                    <button id="prevBtn" class="btn btn-secondary">← Previous</button>
+                    <button id="nextBtn" class="btn btn-primary">Next →</button>
+                    <button id="submitTestBtn" class="btn btn-submit" style="display:none;">Submit Assessment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- THANK YOU PAGE -->
+    <div id="thankyouPage" class="page">
+        <div class="container">
+            <div class="thankyou-box">
+                <div class="success-icon-wrapper">
+                    <div class="success-icon">✓</div>
+                </div>
+                <h1>Submitted Successfully</h1>
+                <p style="color: var(--success-color); font-size: 18px; font-weight: 600; margin-bottom: 25px;">Your assessment has been recorded</p>
+                <p>Our HR team will review your assessment and contact you soon.</p>
+                <div class="submission-id-card">
+                    <div style="color: var(--text-secondary); font-size: 12px; font-weight: 600; text-transform: uppercase; margin-bottom: 10px;">Submission ID</div>
+                    <div class="id-value" id="thankYouSubmissionId">LOADING...</div>
+                    <small style="color: #666;">Save this reference number</small>
+                </div>
+                <div class="timeline">
+                    <h3 style="color: var(--primary-color); margin-bottom: 20px; text-align: center;">Next Steps</h3>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">1</div>
+                        <div style="color: var(--text-secondary);">Assessment under review</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">2</div>
+                        <div style="color: var(--text-secondary);">Results within 3-5 business days</div>
+                    </div>
+                    <div class="timeline-item" style="border-bottom: none;">
+                        <div class="timeline-icon">3</div>
+                        <div style="color: var(--text-secondary);">Contact via email</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -340,72 +801,606 @@
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
-        document.getElementById('candidateForm').addEventListener('submit', async function(e) {
+        let tabSwitchCount = 0;
+        let securityViolationCount = 0;
+        let submissionId = null;
+        let hasSubmitted = false;
+        let sessionToken = null;
+        let securityLog = [];
+        const RATE_LIMIT_KEY = 'lastSubmitTime';
+        const RATE_LIMIT_DURATION = 3600000;
+
+        function generateSessionToken() {
+            const timestamp = Date.now();
+            const random = Math.random().toString(36).substring(2, 15);
+            return 'SESSION-' + timestamp + '-' + random;
+        }
+
+        sessionToken = generateSessionToken();
+
+        function checkHoneypot() {
+            const honeypot = document.querySelector('.hp-field');
+            return !honeypot || honeypot.value === '';
+        }
+
+        function checkRateLimit() {
+            const lastSubmit = localStorage.getItem(RATE_LIMIT_KEY);
+            if (lastSubmit) {
+                const timeSince = Date.now() - parseInt(lastSubmit);
+                if (timeSince < RATE_LIMIT_DURATION) {
+                    const minutesLeft = Math.ceil((RATE_LIMIT_DURATION - timeSince) / 60000);
+                    alert('Please wait ' + minutesLeft + ' minutes before submitting again.');
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function logSecurityEvent(eventType, details) {
+            securityLog.push({
+                timestamp: new Date().toISOString(),
+                type: eventType,
+                details: details
+            });
+        }
+
+        function showSecurityWarning(message) {
+            const warning = document.getElementById('securityWarning');
+            warning.textContent = message;
+            warning.classList.add('show');
+            setTimeout(() => warning.classList.remove('show'), 3000);
+        }
+
+        function disableCopyPaste(element) {
+            ['paste', 'cut', 'copy'].forEach(eventType => {
+                element.addEventListener(eventType, function(e) {
+                    e.preventDefault();
+                    securityViolationCount++;
+                    showSecurityWarning('Copy/paste is disabled');
+                    return false;
+                });
+            });
+        }
+
+        document.addEventListener('contextmenu', e => {
+            if (document.getElementById('testPage').classList.contains('active')) {
+                e.preventDefault();
+                securityViolationCount++;
+                return false;
+            }
+        });
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && document.getElementById('testPage').classList.contains('active')) {
+                tabSwitchCount++;
+                securityViolationCount++;
+                logSecurityEvent('TAB_SWITCH', 'Tab switch detected');
+            }
+        });
+
+        let questions = [
+            {
+                type: "multiple-choice",
+                question: "What is the most important skill in customer service?",
+                options: ["Speed of response", "Active listening and empathy", "Technical knowledge only", "Following scripts exactly"]
+            },
+            {
+                type: "multiple-choice",
+                question: "A customer is angry about a delayed delivery. What should you do FIRST?",
+                options: ["Explain company policies", "Acknowledge their frustration and apologize", "Transfer them to a manager", "Offer a discount immediately"]
+            },
+            {
+                type: "multiple-choice",
+                question: "What does 'active listening' mean in customer service?",
+                options: ["Listening while doing other tasks", "Fully concentrating, understanding, and responding appropriately", "Waiting for your turn to speak", "Taking notes only"]
+            },
+            {
+                type: "multiple-choice",
+                question: "How should you handle a customer request you cannot immediately fulfill?",
+                options: ["Say 'I don't know' and end the call", "Set clear expectations and follow up", "Make promises you might not keep", "Ignore the request"]
+            },
+            {
+                type: "multiple-choice",
+                question: "What is the best way to end a customer service interaction?",
+                options: ["Hang up quickly", "Ask if there's anything else you can help with and thank them", "Just say goodbye", "Transfer to another department"]
+            },
+            {
+                type: "multiple-choice",
+                question: "A customer is using inappropriate language. What should you do?",
+                options: ["Use inappropriate language back", "Remain professional and politely request respectful communication", "Hang up immediately", "Laugh it off"]
+            },
+            {
+                type: "multiple-choice",
+                question: "What is the purpose of asking clarifying questions?",
+                options: ["To confuse the customer", "To fully understand the customer's issue and provide accurate solutions", "To extend call time", "To show off knowledge"]
+            },
+            {
+                type: "multiple-choice",
+                question: "How should you prioritize multiple customer requests?",
+                options: ["Random order", "By urgency and impact", "Ignore less important ones", "Only help familiar customers"]
+            },
+            {
+                type: "multiple-choice",
+                question: "What should you do if you don't know the answer to a customer's question?",
+                options: ["Make up an answer", "Admit you don't know and find someone who does or research it", "Change the subject", "Blame the customer"]
+            },
+            {
+                type: "multiple-choice",
+                question: "What is the key to building customer loyalty?",
+                options: ["Low prices only", "Consistent, reliable, and personalized service", "Fancy marketing", "Long phone calls"]
+            },
+            {
+                type: "multiple-choice",
+                question: "When should you escalate a customer issue to a supervisor?",
+                options: ["For every single request", "When you've exhausted your authority and resources", "Never escalate", "Only on Fridays"]
+            },
+            {
+                type: "multiple-choice",
+                question: "What is the best approach to handling customer complaints?",
+                options: ["Defend the company immediately", "Listen, empathize, apologize, and offer solutions", "Blame other departments", "Minimize the issue"]
+            },
+            {
+                type: "multiple-choice",
+                question: "How should you communicate with a customer who is hard to understand?",
+                options: ["Pretend you understand", "Ask politely for clarification and confirm understanding", "Get frustrated and transfer", "Speak louder"]
+            },
+            {
+                type: "multiple-choice",
+                question: "What does 'going the extra mile' mean in customer service?",
+                options: ["Working overtime", "Exceeding expectations and providing exceptional service", "Doing the bare minimum", "Selling more products"]
+            },
+            {
+                type: "multiple-choice",
+                question: "How should you handle multiple tasks while assisting a customer?",
+                options: ["Multitask constantly", "Focus fully on the customer, then handle other tasks", "Ask the customer to wait indefinitely", "Rush through everything"]
+            },
+            {
+                type: "multiple-choice",
+                question: "What is the importance of product knowledge in customer service?",
+                options: ["Not important at all", "Helps provide accurate information and build trust", "Only for sales people", "Can be ignored"]
+            },
+            {
+                type: "multiple-choice",
+                question: "How should you respond to positive customer feedback?",
+                options: ["Ignore it", "Thank them and share it with your team", "Ask for money", "Take all credit yourself"]
+            },
+            {
+                type: "multiple-choice",
+                question: "What is the best way to handle an upset customer who wants a refund outside of policy?",
+                options: ["Immediately say no", "Explain the policy empathetically and explore alternative solutions", "Give refund without checking", "Argue about the policy"]
+            },
+            {
+                type: "written",
+                question: "Describe a time when you successfully handled a difficult customer situation. What was the problem, what actions did you take, and what was the outcome? (Minimum 100 words)",
+                minWords: 100
+            },
+            {
+                type: "written",
+                question: "Imagine a customer contacts you saying they received the wrong product and they're very upset. Walk us through exactly how you would handle this situation from start to finish. (Minimum 100 words)",
+                minWords: 100
+            }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = [];
+        let candidateData = {};
+        let timeLeft = 1500;
+        let timerInterval;
+        let testStartTime;
+        let audioBlob = null;
+        let audioBase64 = null;
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let recordingStartTime = null;
+        let recordingInterval = null;
+        let mediaStream = null;
+        let isRecording = false;
+
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function validatePhoneNumber(phone) {
+            return phone.replace(/\D/g, '').length >= 10;
+        }
+
+        function generateSubmissionId() {
+            const timestamp = Date.now();
+            const random = Math.random().toString(36).substring(2, 15);
+            return 'SUB-' + timestamp + '-' + random.toUpperCase();
+        }
+
+        async function checkPreviousSubmission() {
+            try {
+                const snapshot = await database.ref('submissions')
+                    .orderByChild('candidateData/email')
+                    .equalTo(candidateData.email)
+                    .once('value');
+                
+                if (snapshot.exists()) {
+                    alert('You have already submitted this assessment.');
+                    return true;
+                }
+                return false;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function blobToBase64(blob) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+            });
+        }
+
+        function stopMediaStream() {
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+                mediaStream = null;
+            }
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            
+            if (!checkHoneypot()) {
+                alert('Security check failed');
+                return;
+            }
             
             document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
             document.querySelectorAll('input').forEach(el => el.classList.remove('error'));
             
-            const name = document.getElementById('fullName').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const consent = document.getElementById('consent').checked;
+            const name = document.getElementById('candidateName').value.trim();
+            const email = document.getElementById('candidateEmail').value.trim();
+            const phone = document.getElementById('candidatePhone').value.trim();
             
             let isValid = true;
             
             if (name.length < 3) {
-                document.getElementById('fullName').classList.add('error');
+                document.getElementById('candidateName').classList.add('error');
                 document.getElementById('nameError').classList.add('show');
                 isValid = false;
             }
             
-            if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-                document.getElementById('email').classList.add('error');
+            if (!validateEmail(email)) {
+                document.getElementById('candidateEmail').classList.add('error');
                 document.getElementById('emailError').classList.add('show');
                 isValid = false;
             }
             
-            if (phone.replace(/\D/g, '').length < 10) {
-                document.getElementById('phone').classList.add('error');
+            if (!validatePhoneNumber(phone)) {
+                document.getElementById('candidatePhone').classList.add('error');
                 document.getElementById('phoneError').classList.add('show');
                 isValid = false;
             }
             
-            if (!consent) {
-                alert('Please accept the consent agreement.');
-                return;
-            }
-            
             if (!isValid) return;
             
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Submitting...';
-            
-            const confirmationId = 'CL-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
-            
-            try {
-                await push(ref(database, 'candidateRegistrations'), {
-                    confirmationId,
-                    name,
-                    email,
-                    phone,
-                    consent: true,
-                    registeredAt: new Date().toISOString(),
-                    source: 'vercel-portal',
-                    userAgent: navigator.userAgent
-                });
-                
-                document.getElementById('registrationForm').style.display = 'none';
-                document.getElementById('successPage').style.display = 'block';
-                document.getElementById('confirmationId').textContent = confirmationId;
-                
-            } catch (error) {
-                alert('Error: ' + error.message);
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Register for Assessment';
+            candidateData = { name, email, phone };
+            showPage('instructionsPage');
+        });
+
+        document.getElementById('backToLogin').addEventListener('click', () => showPage('loginPage'));
+
+        document.getElementById('startTestBtn').addEventListener('click', async function() {
+            const isDuplicate = await checkPreviousSubmission();
+            if (isDuplicate) {
+                showPage('loginPage');
+                return;
+            }
+            showPage('audioPage');
+        });
+
+        const recordBtn = document.getElementById('recordBtn');
+        const recordingStatus = document.getElementById('recordingStatus');
+        const recordingTimer = document.getElementById('recordingTimer');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const audioPlayback = document.getElementById('audioPlayback');
+        const continueBtn = document.getElementById('continueToTest');
+        const reRecordBtn = document.getElementById('reRecordBtn');
+
+        recordBtn.addEventListener('click', async function() {
+            if (!isRecording) {
+                try {
+                    mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/mp4';
+                    mediaRecorder = new MediaRecorder(mediaStream, { mimeType });
+                    audioChunks = [];
+
+                    mediaRecorder.ondataavailable = (event) => {
+                        if (event.data.size > 0) audioChunks.push(event.data);
+                    };
+
+                    mediaRecorder.onstop = async () => {
+                        audioBlob = new Blob(audioChunks, { type: mimeType });
+                        audioBase64 = await blobToBase64(audioBlob);
+                        audioPlayback.src = URL.createObjectURL(audioBlob);
+                        audioPlayer.classList.add('show');
+                        continueBtn.style.display = 'inline-block';
+                        reRecordBtn.style.display = 'inline-block';
+                        stopMediaStream();
+                    };
+
+                    mediaRecorder.start();
+                    isRecording = true;
+                    recordBtn.textContent = '⏹️ Stop';
+                    recordBtn.classList.add('recording');
+                    recordingStatus.textContent = '🔴 Recording...';
+                    recordingStartTime = Date.now();
+                    recordingInterval = setInterval(updateRecordingTimer, 100);
+                } catch (error) {
+                    alert('Unable to access microphone: ' + error.message);
+                }
+            } else {
+                stopRecording();
             }
         });
+
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                isRecording = false;
+                recordBtn.textContent = '🎙️ Start';
+                recordBtn.classList.remove('recording');
+                recordingStatus.textContent = '✅ Complete';
+                clearInterval(recordingInterval);
+            }
+        }
+
+        function updateRecordingTimer() {
+            const elapsed = Math.floor((Date.now() - recordingStartTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            recordingTimer.textContent = minutes + ':' + seconds.toString().padStart(2, '0');
+            if (elapsed >= 120) stopRecording();
+        }
+
+        reRecordBtn.addEventListener('click', function() {
+            audioPlayer.classList.remove('show');
+            continueBtn.style.display = 'none';
+            reRecordBtn.style.display = 'none';
+            recordingStatus.textContent = '';
+            recordingTimer.textContent = '';
+            audioBlob = null;
+            audioBase64 = null;
+        });
+
+        continueBtn.addEventListener('click', function() {
+            if (!audioBase64) {
+                alert('Please record your introduction');
+                return;
+            }
+            showPage('testPage');
+            initializeTest();
+            startTimer();
+            testStartTime = Date.now();
+        });
+
+        function initializeTest() {
+            userAnswers = new Array(questions.length).fill(null);
+            currentQuestion = 0;
+            document.getElementById('candidateNameDisplay').textContent = candidateData.name;
+            createQuestionNavigation();
+            displayQuestion();
+        }
+
+        function createQuestionNavigation() {
+            const nav = document.getElementById('questionNav');
+            nav.innerHTML = '';
+            questions.forEach((_, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'question-nav-btn';
+                btn.textContent = index + 1;
+                btn.onclick = () => goToQuestion(index);
+                nav.appendChild(btn);
+            });
+            updateNavigationState();
+        }
+
+        function updateNavigationState() {
+            const buttons = document.querySelectorAll('.question-nav-btn');
+            buttons.forEach((btn, index) => {
+                btn.classList.remove('current', 'answered');
+                if (index === currentQuestion) btn.classList.add('current');
+                if (userAnswers[index] !== null && userAnswers[index] !== '') btn.classList.add('answered');
+            });
+        }
+
+        function displayQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('questionNumber').textContent = 'Question ' + (currentQuestion + 1) + ' of ' + questions.length;
+            document.getElementById('questionText').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            if (question.type === 'multiple-choice') {
+                question.options.forEach((option, index) => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'option';
+                    if (userAnswers[currentQuestion] === index) optionDiv.classList.add('selected');
+                    
+                    const radioInput = document.createElement('input');
+                    radioInput.type = 'radio';
+                    radioInput.name = 'answer';
+                    radioInput.value = index;
+                    if (userAnswers[currentQuestion] === index) radioInput.checked = true;
+                    
+                    const optionText = document.createElement('span');
+                    optionText.textContent = option;
+                    
+                    optionDiv.appendChild(radioInput);
+                    optionDiv.appendChild(optionText);
+                    optionDiv.onclick = () => selectOption(index);
+                    optionsContainer.appendChild(optionDiv);
+                });
+            } else {
+                const warning = document.createElement('div');
+                warning.className = 'paste-warning';
+                warning.textContent = '⚠️ Copy-paste is disabled. Type your answer.';
+                optionsContainer.appendChild(warning);
+
+                const textarea = document.createElement('textarea');
+                textarea.className = 'written-answer';
+                textarea.placeholder = 'Type your answer here (minimum 100 words)...';
+                textarea.value = userAnswers[currentQuestion] || '';
+                disableCopyPaste(textarea);
+                textarea.addEventListener('input', function() {
+                    userAnswers[currentQuestion] = this.value;
+                    updateCharCounter();
+                    updateNavigationState();
+                });
+                optionsContainer.appendChild(textarea);
+                
+                const charCounter = document.createElement('div');
+                charCounter.className = 'char-counter';
+                charCounter.id = 'charCounter';
+                optionsContainer.appendChild(charCounter);
+                updateCharCounter();
+            }
+            
+            document.getElementById('prevBtn').style.display = currentQuestion === 0 ? 'none' : 'inline-block';
+            document.getElementById('nextBtn').style.display = currentQuestion === questions.length - 1 ? 'none' : 'inline-block';
+            document.getElementById('submitTestBtn').style.display = currentQuestion === questions.length - 1 ? 'inline-block' : 'none';
+            updateNavigationState();
+        }
+
+        function updateCharCounter() {
+            const counter = document.getElementById('charCounter');
+            if (counter) {
+                const text = userAnswers[currentQuestion] || '';
+                const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+                counter.textContent = words + ' words | ' + text.length + ' characters';
+            }
+        }
+
+        function selectOption(index) {
+            userAnswers[currentQuestion] = index;
+            document.querySelectorAll('.option').forEach((opt, i) => {
+                opt.classList.remove('selected');
+                if (i === index) opt.classList.add('selected');
+            });
+            document.querySelectorAll('input[name="answer"]')[index].checked = true;
+            updateNavigationState();
+        }
+
+        function goToQuestion(index) {
+            currentQuestion = index;
+            displayQuestion();
+        }
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+            }
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            }
+        });
+
+        function startTimer() {
+            timerInterval = setInterval(function() {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('timer').textContent = minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+                if (timeLeft <= 300) document.querySelector('.timer').classList.add('warning');
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitTest();
+                }
+            }, 1000);
+        }
+
+        document.getElementById('submitTestBtn').addEventListener('click', function() {
+            if (confirm('Submit your assessment? You cannot modify answers after submission.')) {
+                submitTest();
+            }
+        });
+
+        function getSecurityBreakdown() {
+            const breakdown = { tabSwitches: 0, pasteAttempts: 0, rightClicks: 0, other: 0 };
+            securityLog.forEach(event => {
+                if (event.type === 'TAB_SWITCH') breakdown.tabSwitches++;
+                else if (event.type === 'PASTE_BLOCKED') breakdown.pasteAttempts++;
+                else if (event.type === 'RIGHT_CLICK_BLOCKED') breakdown.rightClicks++;
+                else breakdown.other++;
+            });
+            return breakdown;
+        }
+
+        async function submitTest() {
+            if (hasSubmitted) return;
+            if (!checkRateLimit()) return;
+
+            clearInterval(timerInterval);
+            hasSubmitted = true;
+            submissionId = generateSubmissionId();
+            
+            const timeTaken = Math.floor((Date.now() - testStartTime) / 1000);
+            const minutesTaken = Math.floor(timeTaken / 60);
+            const secondsTaken = timeTaken % 60;
+
+            const submission = {
+                submissionId,
+                candidateData,
+                answers: userAnswers,
+                timeTaken: minutesTaken + ':' + secondsTaken.toString().padStart(2, '0'),
+                tabSwitchCount,
+                securityViolationCount,
+                securityBreakdown: getSecurityBreakdown(),
+                securityLog,
+                audioBase64: audioBase64 || null,
+                submittedAt: new Date().toISOString(),
+                sessionToken,
+                deviceInfo: {
+                    userAgent: navigator.userAgent,
+                    platform: navigator.platform,
+                    language: navigator.language
+                },
+                scored: false
+            };
+
+            try {
+                const emailHash = btoa(candidateData.email.toLowerCase()).replace(/[^a-zA-Z0-9]/g, '');
+                await push(ref(database, 'emailIndex/' + emailHash), true);
+                await push(ref(database, 'submissions'), submission);
+                localStorage.setItem(RATE_LIMIT_KEY, Date.now().toString());
+                document.getElementById('thankYouSubmissionId').textContent = submissionId;
+                showPage('thankyouPage');
+            } catch (error) {
+                if (error.code === 'PERMISSION_DENIED') {
+                    alert('This email has already been used.');
+                    showPage('loginPage');
+                } else {
+                    document.getElementById('thankYouSubmissionId').textContent = submissionId;
+                    showPage('thankyouPage');
+                }
+            }
+        }
+
+        window.addEventListener('beforeunload', function(e) {
+            if (document.getElementById('testPage').classList.contains('active') && !hasSubmitted) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+
+        window.addEventListener('unload', stopMediaStream);
     </script>
 </body>
 </html>
