@@ -60,6 +60,7 @@
             z-index: 10000;
             display: none;
             font-size: 14px;
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
         }
 
         .security-warning.show { display: block; }
@@ -114,6 +115,7 @@
             align-items: center;
             gap: 8px;
             font-weight: 600;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.25);
         }
 
         .login-box input {
@@ -176,11 +178,22 @@
         .btn-secondary {
             background: #f0f0f0;
             color: var(--text-primary);
+            margin-top: 15px;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
         }
 
         .btn-submit {
             background: linear-gradient(135deg, var(--success-color), #20c997);
             color: white;
+            box-shadow: 0 4px 14px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
         }
 
         .instructions-box {
@@ -213,6 +226,7 @@
             border-bottom: 1px solid #f5f5f5;
             position: relative;
             font-size: 15px;
+            line-height: 1.6;
         }
 
         .instructions-content li:before {
@@ -222,6 +236,7 @@
             color: var(--success-color);
             font-weight: bold;
             font-size: 18px;
+            top: 14px;
         }
 
         .test-info {
@@ -268,10 +283,12 @@
             color: var(--primary-color);
             margin-bottom: 15px;
             font-size: 18px;
+            font-weight: 600;
         }
 
         .audio-prompt ul {
             list-style: none;
+            padding-left: 0;
         }
 
         .audio-prompt li {
@@ -287,6 +304,10 @@
             margin-right: 8px;
         }
 
+        .recording-controls {
+            margin: 30px 0;
+        }
+
         .record-btn {
             width: 110px;
             height: 110px;
@@ -298,10 +319,12 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            box-shadow: 0 6px 20px rgba(220, 53, 69, 0.3);
         }
 
         .record-btn:hover {
             transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
         }
 
         .record-btn.recording {
@@ -326,6 +349,7 @@
             color: var(--primary-color);
             font-weight: bold;
             margin: 15px 0;
+            font-variant-numeric: tabular-nums;
         }
 
         .audio-player {
@@ -370,6 +394,7 @@
             background: #f0f4ff;
             padding: 10px 18px;
             border-radius: 12px;
+            font-variant-numeric: tabular-nums;
         }
 
         .timer.warning {
@@ -400,6 +425,13 @@
             box-shadow: var(--shadow-md);
         }
 
+        .question-sidebar h3 {
+            margin-bottom: 18px;
+            color: var(--primary-color);
+            font-size: 17px;
+            font-weight: 600;
+        }
+
         #questionNav {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -416,6 +448,7 @@
             font-size: 13px;
             font-weight: 600;
             transition: all 0.3s;
+            color: var(--text-secondary);
         }
 
         .question-nav-btn:hover {
@@ -432,6 +465,7 @@
         .question-nav-btn.current {
             border-color: var(--primary-color);
             border-width: 3px;
+            box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.15);
         }
 
         .question-area {
@@ -459,6 +493,10 @@
             font-weight: 500;
         }
 
+        #optionsContainer {
+            margin-bottom: 30px;
+        }
+
         .option {
             background: var(--bg-light);
             padding: 16px 20px;
@@ -475,6 +513,7 @@
         .option:hover {
             border-color: var(--primary-color);
             transform: translateX(6px);
+            box-shadow: var(--shadow-sm);
         }
 
         .option.selected {
@@ -482,6 +521,7 @@
             color: white;
             border-color: var(--primary-color);
             font-weight: 500;
+            box-shadow: 0 4px 12px rgba(30, 60, 114, 0.2);
         }
 
         .option input[type="radio"] {
@@ -500,6 +540,7 @@
             font-size: 16px;
             font-family: inherit;
             resize: vertical;
+            transition: all 0.3s;
             line-height: 1.6;
         }
 
@@ -514,6 +555,7 @@
             color: var(--text-secondary);
             font-size: 13px;
             margin-top: 8px;
+            font-weight: 500;
         }
 
         .paste-warning {
@@ -524,6 +566,7 @@
             border-radius: 8px;
             color: #856404;
             font-size: 14px;
+            font-weight: 500;
         }
 
         .question-controls {
@@ -542,6 +585,18 @@
             width: 100%;
             max-width: 650px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .thankyou-box:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #1e3c72, #2a5298, #28a745);
         }
 
         .success-icon-wrapper {
@@ -554,6 +609,7 @@
             align-items: center;
             justify-content: center;
             animation: successPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 10px 30px rgba(40, 167, 69, 0.3);
         }
 
         .success-icon {
@@ -573,12 +629,36 @@
             font-weight: 700;
         }
 
+        .thankyou-box .subtitle {
+            color: var(--success-color);
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        .thankyou-box p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
         .submission-id-card {
             background: linear-gradient(135deg, #f8f9ff 0%, #e8eeff 100%);
             padding: 25px;
             border-radius: 16px;
             margin: 30px 0;
             border: 2px solid var(--primary-color);
+            box-shadow: 0 6px 18px rgba(42, 82, 152, 0.12);
+        }
+
+        .submission-id-card .label {
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
         }
 
         .submission-id-card .id-value {
@@ -586,7 +666,8 @@
             font-size: 20px;
             font-weight: 700;
             font-family: 'Courier New', monospace;
-            margin: 15px 0;
+            margin-bottom: 15px;
+            word-break: break-all;
         }
 
         .timeline {
@@ -597,11 +678,23 @@
             text-align: left;
         }
 
+        .timeline h3 {
+            color: var(--primary-color);
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
         .timeline-item {
             display: flex;
             align-items: center;
             padding: 14px 0;
             border-bottom: 1px solid #e8eeff;
+        }
+
+        .timeline-item:last-child {
+            border-bottom: none;
         }
 
         .timeline-icon {
@@ -616,13 +709,87 @@
             margin-right: 15px;
             font-size: 15px;
             font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .timeline-text {
+            color: var(--text-secondary);
+            font-size: 15px;
         }
 
         @media (max-width: 768px) {
-            .test-container { flex-direction: column; padding: 0 15px; }
-            .question-sidebar { width: 100%; }
-            #questionNav { grid-template-columns: repeat(10, 1fr); }
-            .question-controls { flex-direction: column; }
+            .container {
+                padding: 15px;
+            }
+
+            .login-box, .instructions-box, .audio-box, .thankyou-box {
+                padding: 35px 25px;
+            }
+
+            .login-box h1, .audio-box h1 {
+                font-size: 26px;
+            }
+
+            .test-container {
+                flex-direction: column;
+                padding: 0 15px;
+            }
+
+            .question-sidebar {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            #questionNav {
+                grid-template-columns: repeat(10, 1fr);
+            }
+
+            .test-header {
+                padding: 15px 20px;
+            }
+
+            .candidate-info {
+                font-size: 14px;
+                width: 100%;
+                text-align: center;
+            }
+
+            .timer {
+                font-size: 18px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .question-area {
+                padding: 25px 20px;
+            }
+
+            #questionText {
+                font-size: 17px;
+            }
+
+            .option {
+                font-size: 15px;
+                padding: 14px 16px;
+            }
+
+            .question-controls {
+                flex-direction: column;
+            }
+
+            .question-controls .btn {
+                width: 100%;
+            }
+
+            .record-btn {
+                width: 100px;
+                height: 100px;
+                font-size: 15px;
+            }
+
+            .submission-id-card .id-value {
+                font-size: 16px;
+            }
         }
 
         .hp-field {
@@ -687,7 +854,7 @@
                     </div>
                 </div>
                 <button id="startTestBtn" class="btn btn-primary">I Understand - Start Assessment</button>
-                <button id="backToLogin" class="btn btn-secondary" style="margin-top: 15px;">Back</button>
+                <button id="backToLogin" class="btn btn-secondary">Back</button>
             </div>
         </div>
     </div>
@@ -718,7 +885,7 @@
                 </div>
                 <div class="audio-actions">
                     <button id="continueToTest" class="btn btn-primary" style="display:none;">Continue to Test</button>
-                    <button id="reRecordBtn" class="btn btn-secondary" style="display:none; margin-top: 15px;">Re-record</button>
+                    <button id="reRecordBtn" class="btn btn-secondary" style="display:none;">Re-record</button>
                 </div>
             </div>
         </div>
@@ -757,27 +924,27 @@
                 <div class="success-icon-wrapper">
                     <div class="success-icon">✓</div>
                 </div>
-                <h1>Submitted Successfully</h1>
-                <p style="color: var(--success-color); font-size: 18px; font-weight: 600; margin-bottom: 25px;">Your assessment has been recorded</p>
+                <h1>Assessment Submitted Successfully</h1>
+                <p class="subtitle">Your responses have been recorded</p>
                 <p>Our HR team will review your assessment and contact you soon.</p>
                 <div class="submission-id-card">
-                    <div style="color: var(--text-secondary); font-size: 12px; font-weight: 600; text-transform: uppercase; margin-bottom: 10px;">Submission ID</div>
+                    <div class="label">Submission Reference ID</div>
                     <div class="id-value" id="thankYouSubmissionId">LOADING...</div>
                     <small style="color: #666;">Save this reference number</small>
                 </div>
                 <div class="timeline">
-                    <h3 style="color: var(--primary-color); margin-bottom: 20px; text-align: center;">Next Steps</h3>
+                    <h3>Next Steps</h3>
                     <div class="timeline-item">
                         <div class="timeline-icon">1</div>
-                        <div style="color: var(--text-secondary);">Assessment under review</div>
+                        <div class="timeline-text">Assessment under review</div>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-icon">2</div>
-                        <div style="color: var(--text-secondary);">Results within 3-5 business days</div>
+                        <div class="timeline-text">Results within 3-5 business days</div>
                     </div>
-                    <div class="timeline-item" style="border-bottom: none;">
+                    <div class="timeline-item">
                         <div class="timeline-icon">3</div>
-                        <div style="color: var(--text-secondary);">Contact via email</div>
+                        <div class="timeline-text">Contact via email</div>
                     </div>
                 </div>
             </div>
@@ -786,7 +953,7 @@
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getDatabase, ref, push } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+        import { getDatabase, ref, push, set, get, query, orderByChild, equalTo } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 
         const firebaseConfig = {
             apiKey: "AIzaSyCwulSy8UIY_DDF4A3fhiPNm4gJmbfg8Iw",
@@ -852,13 +1019,22 @@
         }
 
         function disableCopyPaste(element) {
-            ['paste', 'cut', 'copy'].forEach(eventType => {
+            ['paste', 'cut', 'copy', 'drop', 'dragover'].forEach(eventType => {
                 element.addEventListener(eventType, function(e) {
                     e.preventDefault();
                     securityViolationCount++;
-                    showSecurityWarning('Copy/paste is disabled');
+                    logSecurityEvent('PASTE_BLOCKED', eventType + ' attempted');
+                    showSecurityWarning('Copy/paste is disabled. You must type your answer.');
                     return false;
                 });
+            });
+
+            element.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                securityViolationCount++;
+                logSecurityEvent('RIGHT_CLICK_ANSWER_FIELD', 'Right-click on answer field');
+                showSecurityWarning('Right-click is disabled in answer fields.');
+                return false;
             });
         }
 
@@ -866,6 +1042,8 @@
             if (document.getElementById('testPage').classList.contains('active')) {
                 e.preventDefault();
                 securityViolationCount++;
+                logSecurityEvent('RIGHT_CLICK_BLOCKED', 'Right-click attempted during test');
+                showSecurityWarning('Right-click is disabled during the test.');
                 return false;
             }
         });
@@ -874,7 +1052,13 @@
             if (document.hidden && document.getElementById('testPage').classList.contains('active')) {
                 tabSwitchCount++;
                 securityViolationCount++;
-                logSecurityEvent('TAB_SWITCH', 'Tab switch detected');
+                logSecurityEvent('TAB_SWITCH', 'Tab switch #' + tabSwitchCount);
+            }
+        });
+
+        window.addEventListener('blur', () => {
+            if (document.getElementById('testPage').classList.contains('active')) {
+                logSecurityEvent('WINDOW_BLUR', 'User switched to another window');
             }
         });
 
@@ -976,7 +1160,7 @@
             },
             {
                 type: "written",
-                question: "Imagine a customer contacts you saying they received the wrong product and they're very upset. Walk us through exactly how you would handle this situation from start to finish. (Minimum 100 words)",
+                question: "Imagine a customer contacts you saying they received the wrong product and they're very upset because it was meant as a gift. Walk us through exactly how you would handle this situation from start to finish. (Minimum 100 words)",
                 minWords: 100
             }
         ];
@@ -1012,17 +1196,18 @@
 
         async function checkPreviousSubmission() {
             try {
-                const snapshot = await database.ref('submissions')
-                    .orderByChild('candidateData/email')
-                    .equalTo(candidateData.email)
-                    .once('value');
+                const submissionsRef = ref(database, 'submissions');
+                const emailQuery = query(submissionsRef, orderByChild('candidateData/email'), equalTo(candidateData.email));
+                const snapshot = await get(emailQuery);
                 
                 if (snapshot.exists()) {
-                    alert('You have already submitted this assessment.');
+                    alert('You have already submitted this assessment. Multiple submissions are not allowed.');
+                    logSecurityEvent('DUPLICATE_SUBMISSION_BLOCKED', 'Email: ' + candidateData.email);
                     return true;
                 }
                 return false;
             } catch (error) {
+                console.log('Error checking previous submission:', error);
                 return false;
             }
         }
@@ -1086,6 +1271,7 @@
             if (!isValid) return;
             
             candidateData = { name, email, phone };
+            logSecurityEvent('LOGIN', 'Candidate: ' + name + ', Email: ' + email);
             showPage('instructionsPage');
         });
 
@@ -1097,6 +1283,7 @@
                 showPage('loginPage');
                 return;
             }
+            logSecurityEvent('TEST_STARTED', 'Moving to audio recording');
             showPage('audioPage');
         });
 
@@ -1111,7 +1298,14 @@
         recordBtn.addEventListener('click', async function() {
             if (!isRecording) {
                 try {
-                    mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaStream = await navigator.mediaDevices.getUserMedia({ 
+                        audio: {
+                            echoCancellation: true,
+                            noiseSuppression: true,
+                            sampleRate: 44100
+                        }
+                    });
+                    
                     const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/mp4';
                     mediaRecorder = new MediaRecorder(mediaStream, { mimeType });
                     audioChunks = [];
@@ -1128,6 +1322,7 @@
                         continueBtn.style.display = 'inline-block';
                         reRecordBtn.style.display = 'inline-block';
                         stopMediaStream();
+                        logSecurityEvent('AUDIO_RECORDED', 'Duration: ' + Math.floor((Date.now() - recordingStartTime) / 1000) + 's');
                     };
 
                     mediaRecorder.start();
@@ -1137,8 +1332,18 @@
                     recordingStatus.textContent = '🔴 Recording...';
                     recordingStartTime = Date.now();
                     recordingInterval = setInterval(updateRecordingTimer, 100);
+                    logSecurityEvent('AUDIO_RECORDING_STARTED', 'Recording began');
                 } catch (error) {
-                    alert('Unable to access microphone: ' + error.message);
+                    let errorMessage = 'Unable to access microphone.\n\n';
+                    if (error.name === 'NotAllowedError') {
+                        errorMessage += 'Please allow microphone access in your browser settings.';
+                    } else if (error.name === 'NotFoundError') {
+                        errorMessage += 'No microphone found.';
+                    } else {
+                        errorMessage += 'Error: ' + error.message;
+                    }
+                    alert(errorMessage);
+                    logSecurityEvent('AUDIO_ERROR', error.name + ': ' + error.message);
                 }
             } else {
                 stopRecording();
@@ -1161,7 +1366,10 @@
             const minutes = Math.floor(elapsed / 60);
             const seconds = elapsed % 60;
             recordingTimer.textContent = minutes + ':' + seconds.toString().padStart(2, '0');
-            if (elapsed >= 120) stopRecording();
+            if (elapsed >= 120) {
+                stopRecording();
+                alert('Maximum recording time (2 minutes) reached.');
+            }
         }
 
         reRecordBtn.addEventListener('click', function() {
@@ -1172,11 +1380,15 @@
             recordingTimer.textContent = '';
             audioBlob = null;
             audioBase64 = null;
+            if (audioPlayback.src) {
+                URL.revokeObjectURL(audioPlayback.src);
+                audioPlayback.src = '';
+            }
         });
 
         continueBtn.addEventListener('click', function() {
             if (!audioBase64) {
-                alert('Please record your introduction');
+                alert('Please record your introduction before continuing.');
                 return;
             }
             showPage('testPage');
@@ -1246,7 +1458,7 @@
             } else {
                 const warning = document.createElement('div');
                 warning.className = 'paste-warning';
-                warning.textContent = '⚠️ Copy-paste is disabled. Type your answer.';
+                warning.textContent = '⚠️ Important: Copy-paste is disabled. You must type your answer.';
                 optionsContainer.appendChild(warning);
 
                 const textarea = document.createElement('textarea');
@@ -1321,31 +1533,47 @@
                 if (timeLeft <= 300) document.querySelector('.timer').classList.add('warning');
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
+                    alert('Time is up! Your assessment will be submitted automatically.');
                     submitTest();
                 }
             }, 1000);
         }
 
         document.getElementById('submitTestBtn').addEventListener('click', function() {
-            if (confirm('Submit your assessment? You cannot modify answers after submission.')) {
+            if (confirm('Are you sure you want to submit your assessment? You cannot modify answers after submission.')) {
                 submitTest();
             }
         });
 
         function getSecurityBreakdown() {
-            const breakdown = { tabSwitches: 0, pasteAttempts: 0, rightClicks: 0, other: 0 };
+            const breakdown = { tabSwitches: 0, pasteAttempts: 0, rightClicks: 0, devToolsAttempts: 0, screenshotAttempts: 0, keyboardShortcuts: 0, other: 0 };
             securityLog.forEach(event => {
-                if (event.type === 'TAB_SWITCH') breakdown.tabSwitches++;
-                else if (event.type === 'PASTE_BLOCKED') breakdown.pasteAttempts++;
-                else if (event.type === 'RIGHT_CLICK_BLOCKED') breakdown.rightClicks++;
-                else breakdown.other++;
+                switch(event.type) {
+                    case 'TAB_SWITCH': breakdown.tabSwitches++; break;
+                    case 'PASTE_BLOCKED': breakdown.pasteAttempts++; break;
+                    case 'RIGHT_CLICK_BLOCKED':
+                    case 'RIGHT_CLICK_ANSWER_FIELD': breakdown.rightClicks++; break;
+                    case 'DEVTOOLS_DETECTED':
+                    case 'CONSOLE_OPENED': breakdown.devToolsAttempts++; break;
+                    case 'SCREENSHOT_ATTEMPT': breakdown.screenshotAttempts++; break;
+                    case 'KEYBOARD_SHORTCUT_BLOCKED':
+                    case 'KEYBOARD_PASTE_BLOCKED': breakdown.keyboardShortcuts++; break;
+                    default: breakdown.other++;
+                }
             });
             return breakdown;
         }
 
         async function submitTest() {
-            if (hasSubmitted) return;
-            if (!checkRateLimit()) return;
+            if (hasSubmitted) {
+                console.log('Already submitted, preventing duplicate');
+                return;
+            }
+            
+            if (!checkRateLimit()) {
+                hasSubmitted = false;
+                return;
+            }
 
             clearInterval(timerInterval);
             hasSubmitted = true;
@@ -1370,26 +1598,64 @@
                 deviceInfo: {
                     userAgent: navigator.userAgent,
                     platform: navigator.platform,
-                    language: navigator.language
+                    language: navigator.language,
+                    screenResolution: window.screen.width + 'x' + window.screen.height,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
                 },
                 scored: false
             };
 
             try {
+                console.log('Starting submission process...');
+                
+                // Check if email already exists in emailIndex
                 const emailHash = btoa(candidateData.email.toLowerCase()).replace(/[^a-zA-Z0-9]/g, '');
-                await push(ref(database, 'emailIndex/' + emailHash), true);
-                await push(ref(database, 'submissions'), submission);
+                const emailIndexRef = ref(database, 'emailIndex/' + emailHash);
+                const emailSnapshot = await get(emailIndexRef);
+                
+                if (emailSnapshot.exists()) {
+                    console.log('Email already used');
+                    alert('This email has already been used to submit an assessment. Multiple submissions are not allowed.');
+                    hasSubmitted = false;
+                    showPage('loginPage');
+                    return;
+                }
+                
+                console.log('Email is new, proceeding with submission...');
+                
+                // Save submission to database
+                const submissionRef = await push(ref(database, 'submissions'), submission);
+                console.log('Submission saved with key:', submissionRef.key);
+                
+                // Mark email as used in emailIndex
+                await set(emailIndexRef, {
+                    email: candidateData.email,
+                    submittedAt: new Date().toISOString(),
+                    submissionId: submissionId,
+                    submissionKey: submissionRef.key
+                });
+                console.log('Email marked as used');
+                
+                // Set rate limit in localStorage
                 localStorage.setItem(RATE_LIMIT_KEY, Date.now().toString());
+                
+                // Show success page
                 document.getElementById('thankYouSubmissionId').textContent = submissionId;
                 showPage('thankyouPage');
+                console.log('Submission complete!');
+                
             } catch (error) {
+                console.error('Submission error:', error);
+                hasSubmitted = false;
+                
                 if (error.code === 'PERMISSION_DENIED') {
-                    alert('This email has already been used.');
-                    showPage('loginPage');
+                    alert('Permission denied. Please contact HR support.\n\nYour Submission ID: ' + submissionId);
                 } else {
-                    document.getElementById('thankYouSubmissionId').textContent = submissionId;
-                    showPage('thankyouPage');
+                    alert('Error submitting assessment: ' + error.message + '\n\nYour Submission ID: ' + submissionId + '\n\nPlease save this ID and contact HR support.');
                 }
+                
+                document.getElementById('thankYouSubmissionId').textContent = submissionId;
+                showPage('thankyouPage');
             }
         }
 
@@ -1397,10 +1663,19 @@
             if (document.getElementById('testPage').classList.contains('active') && !hasSubmitted) {
                 e.preventDefault();
                 e.returnValue = '';
+                return '';
             }
         });
 
         window.addEventListener('unload', stopMediaStream);
+
+        if (navigator.webdriver) {
+            logSecurityEvent('AUTOMATION_DETECTED', 'WebDriver flag detected');
+            securityViolationCount += 10;
+        }
+
+        console.log('✅ Assessment system initialized');
+        console.log('Session token:', sessionToken);
     </script>
 </body>
 </html>
